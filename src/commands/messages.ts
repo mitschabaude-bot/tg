@@ -2,7 +2,7 @@ import { parseLimit, parseOffset, readOption } from "../args.ts";
 import { runJsonHelper } from "../python.ts";
 import { cachePath } from "../sessions.ts";
 
-type MessageRow = {
+export type MessageRow = {
   id: number;
   date: string | null;
   sender_id: number | null;
@@ -95,7 +95,7 @@ export function runMessagesList(args: string[], usage: () => never): void {
   }
 }
 
-function formatMessage(row: MessageRow): string {
+export function formatMessage(row: MessageRow): string {
   const lines = [formatHeader(row)];
   const width = messageWidth();
   const forward = formatForward(row);
@@ -208,7 +208,9 @@ function formatDate(value: string | null): string {
 }
 
 function formatAttachments(attachments: AttachmentRow[]): string[] {
-  return attachments.map((attachment) => {
+  return attachments.filter((attachment) =>
+    attachment.kind !== "MessageMediaWebPage"
+  ).map((attachment) => {
     const name = attachment.path ?? attachment.name ?? attachment.ext ?? attachment.kind;
     const details = [
       attachment.size ? formatSize(attachment.size) : "",

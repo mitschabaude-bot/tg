@@ -2,6 +2,7 @@
 import { runAuthBootstrap, tdataCandidates } from "./commands/authBootstrap.ts";
 import { runCacheStatus } from "./commands/cache.ts";
 import { runChatsList } from "./commands/chats.ts";
+import { runEventsListen } from "./commands/events.ts";
 import { runMessagesList } from "./commands/messages.ts";
 import { runSyncChats, runSyncMessages } from "./commands/sync.ts";
 
@@ -14,6 +15,7 @@ function usage(): never {
   tg chats list [--session NAME] [--limit N] [--offset N] [--json]
   tg messages list --chat CHAT [--session NAME] [--limit N] [--offset N] [--json]
   tg cache status [--session NAME] [--json]
+  tg events listen [--session NAME]
 
 Common tdata paths:
 ${tdataCandidates.map((path) => `  ${path}`).join("\n")}`);
@@ -34,6 +36,8 @@ if (args[0] === "auth" && args[1] === "bootstrap") {
   runMessagesList(args.slice(2), usage);
 } else if (args[0] === "cache" && args[1] === "status") {
   runCacheStatus(args.slice(2), usage);
+} else if (args[0] === "events" && args[1] === "listen") {
+  await runEventsListen(args.slice(2), usage);
 } else {
   usage();
 }

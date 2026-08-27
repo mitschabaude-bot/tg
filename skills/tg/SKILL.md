@@ -87,3 +87,7 @@ Plain text includes full local attachment paths and is the preferred, token-effi
 By comparison, `--json` is quite verbose. Use it when the output needs to be processed programmatically.
 
 Message output uses cached peer names and usernames for senders and reactors when available, with numeric peer ids as a fallback. Re-syncing messages or chats fills in more peer metadata over time.
+
+## Live Events
+
+`tg events listen --session NAME` emits concise JSONL events for incoming messages while keeping each affected chat current in the cache. It is a long-running command intended for a service supervisor. Reaction updates are cached and emitted only for messages sent by the logged-in user.

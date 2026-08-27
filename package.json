@@ -12,6 +12,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "check": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test src/commands/events.test.ts",
     "tg": "node src/cli.ts"
   },
   "devDependencies": {

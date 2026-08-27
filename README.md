@@ -20,5 +20,13 @@ This is intentionally different from directly reusing TG Desktop's auth key. The
 
 After bootstrap, `tg sync` commands use the persistent client session to fetch chats/messages into a fast local SQLite cache, which serves all read requests like `tg messages list`. See the [skill](https://github.com/mitschabaude/tg/tree/main/skills/tg) for the list of available commands.
 
+## Live events
+
+`tg events listen --session NAME` keeps a Telegram connection open and writes one concise JSONL event for each incoming message. Before emitting an event, it updates the affected chat in the local cache: existing chats are synchronized from their newest cached message, while new chats receive the latest 100 messages of context.
+
+Reaction changes are cached as well. They produce events only when they affect messages sent by the logged-in user.
+
+The command is intended to run as a supervised service. Its stdout is the event stream and diagnostics go to stderr.
+
 > [!WARNING]
 > The local client session under `data/sessions/` gives an attacker Telegram account access equivalent to a locally logged-in Telegram Desktop client. The local cache under `data/cache/` can also contain sensitive message history. Treat both as private account data.
