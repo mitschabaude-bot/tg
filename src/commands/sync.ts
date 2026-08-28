@@ -121,7 +121,7 @@ function parseSyncMessagesOptions(args: string[], usage: () => never): SyncMessa
   return { sessionName, chat, limit, offset, full };
 }
 
-function resolveLocalFiles(sessionName: string): { dirs: string[]; source: string | null } {
+export function resolveLocalFiles(sessionName: string): { dirs: string[]; source: string | null } {
   const metadata = readSessionMetadata(sessionName);
   const downloadDirectory = metadata?.telegram_desktop?.download_directory;
   if (!downloadDirectory?.available || !downloadDirectory.path) {
