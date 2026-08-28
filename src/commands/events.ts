@@ -66,7 +66,7 @@ export async function runEventsListen(
 
 export function formatEvent(event: ListenerRow): { id: string; body: string } {
   const chat = formatChat(event.chat);
-  const message = formatMessage(event.message);
+  const message = formatMessage(event.message, { wrap: false });
   const context = `Context is synced. Inspect with:\ntg messages list --chat ${event.chat.peer_id} --limit 20`;
 
   if (event.kind === "message") {
