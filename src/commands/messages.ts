@@ -91,13 +91,16 @@ export function runMessagesList(args: string[], usage: () => never): void {
   if (options.json) {
     console.log(JSON.stringify(rows, null, 2));
   } else if (rows.length) {
-    console.log(rows.map(formatMessage).join("\n\n"));
+    console.log(rows.map((row) => formatMessage(row)).join("\n\n"));
   }
 }
 
-export function formatMessage(row: MessageRow): string {
+export function formatMessage(
+  row: MessageRow,
+  { wrap = true }: { wrap?: boolean } = {},
+): string {
   const lines = [formatHeader(row)];
-  const width = messageWidth();
+  const width = wrap ? messageWidth() : Number.POSITIVE_INFINITY;
   const forward = formatForward(row);
   if (forward) {
     lines.push(...wrapText(forward, width, ""));
